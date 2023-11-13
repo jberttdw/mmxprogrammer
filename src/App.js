@@ -301,18 +301,6 @@ function getTimingPosition(time) {
 */
 const initialState = {
   data: {
-    drums: {
-      kick: initInstrument(),
-      snare: initInstrument(),
-      hihat: initInstrument(),
-      cymbal: initInstrument()
-    },
-    bass: {
-      E: initInstrument(),
-      A: initInstrument(),
-      D: initInstrument(),
-      G: initInstrument()
-    },
     vibraphone: {
       bar1: initInstrument(),
       bar2: initInstrument(),
@@ -325,6 +313,18 @@ const initialState = {
       bar9: initInstrument(),
       bar10: initInstrument(),
       bar11: initInstrument()
+    },
+    drums: {
+      cymbal: initInstrument(),
+      kick: initInstrument(),
+      snare: initInstrument(),
+      hihat: initInstrument()
+    },
+    bass: {
+      E: initInstrument(),
+      A: initInstrument(),
+      D: initInstrument(),
+      G: initInstrument()
     }
   }
 };
