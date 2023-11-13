@@ -6,7 +6,7 @@ import Instrument from "../atoms/Instrument";
 const SvgContainer = styled.svg`
   position: absolute;
   top: 20px;
-  left: 30px;
+  left: 40px;
 `;
 
 const Container = styled.div`
@@ -15,7 +15,7 @@ const Container = styled.div`
 `;
 
 const RowNumber = styled.div`
-  width: 30px;
+  width: 40px;
   height: 250px;
   padding-top: 120px;
   border: 1px solid black;
@@ -25,7 +25,7 @@ const RowNumber = styled.div`
 const RowNumbersContainer = styled.div`
   position: sticky;
   left: 0;
-  width: 30px;
+  width: 40px;
   background-color: #fafafa;
   z-index: 2;
   text-align: center;
@@ -37,7 +37,7 @@ const ColumnNamesContainer = styled.div`
   white-space: nowrap;
   z-index: 1;
   text-align: center;
-  margin-left: 30px;
+  margin-left: 40px;
   font-size: 14px;
 `;
 
@@ -94,8 +94,9 @@ class NoteGrid extends Component {
             instrumentName={instrument}
           />
         );
-      });
-    });
+      }).reverse();
+    }).reverse();
+    // ^^^^^^^^^^^ Reverse the columns as we're viewing it from the back
 
     // const RowNumbers = new Array(64).fill(false).map((_, i) => {
     //   return (
@@ -110,19 +111,41 @@ class NoteGrid extends Component {
     //     </RowNumber>
     //   );
     // });
+
+    // The divider and gates have a unique number for each column because "left" and "right" track
+    // switch when viewed from the back.
     const ColumnNames = Object.keys(data).map(instrumentGroup => {
+      i = -1;
       return Object.keys(data[instrumentGroup]).map(instrument => {
+        var instrumentShortname;
+        if (instrumentGroup === "bass") {
+          instrumentShortname = instrument;
+          i = -1;
+        } else if (instrumentGroup === "drums") {
+          instrumentShortname = instrument.substring(0,1).toUpperCase();
+          i = -1;
+        } else if (instrumentGroup === "vibraphone") {
+          instrumentShortname = "V";
+        }
         i++;
+        let leftColumn = i*2 + 2;
+        let rightColumn = i*2 + 1;
         return (
           <ColumnName key={instrumentGroup + instrument + i}>
-            {instrumentGroup} {instrument}
+            {leftColumn} &nbsp; {instrumentShortname} &nbsp; {rightColumn}
           </ColumnName>
         );
-      });
-    });
+      }).reverse();
+    }).reverse();
+    // ^^^^^^^^^^^ Reverse the columns as we're viewing it from the back
+
+    // Start numbering from the bottom and by plate - again, programming happens in the back
+    const plateIds = ['A', 'B', 'C', 'D'];
     const RowNumbers = new Array(64).fill(false).map((_, i) => {
-      return <RowNumber key={"RowNumber" + i}>{i + 1}</RowNumber>;
-    });
+      let plateId = plateIds[Math.floor(i / 16)];
+      let beatOnPlate = i % 16;
+      return <RowNumber key={"RowNumber" + i}>{plateId}-{beatOnPlate + 1}</RowNumber>;
+    }).reverse();
 
     return (
       <Container>
