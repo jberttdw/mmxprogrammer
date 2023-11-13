@@ -51,11 +51,11 @@ export class Note extends Component {
       <Rect
         x={x}
         y={y}
-        width="10"
-        height="30"
+        width="5"
+        height="15"
         stroke="black"
-        strokeWidth="5"
-        fill={value !== false ? "black" : "#ccc"}
+        strokeWidth="2"
+        fill={value !== false ? "black" : "#ddd"}
         onClick={() => {
           callback(instrumentGroup, instrument, column - 1, index, !value);
         }}

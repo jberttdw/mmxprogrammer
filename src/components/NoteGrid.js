@@ -16,10 +16,11 @@ const Container = styled.div`
 
 const RowNumber = styled.div`
   width: 40px;
-  height: 250px;
-  padding-top: 120px;
+  height: 125px;
+  padding-top: 60px;
   border: 1px solid black;
   border-left: none;
+  text-align: center;
 `;
 
 const RowNumbersContainer = styled.div`
@@ -28,7 +29,6 @@ const RowNumbersContainer = styled.div`
   width: 40px;
   background-color: #fafafa;
   z-index: 2;
-  text-align: center;
 `;
 
 const ColumnNamesContainer = styled.div`
@@ -36,16 +36,16 @@ const ColumnNamesContainer = styled.div`
   top: 0;
   white-space: nowrap;
   z-index: 1;
-  text-align: center;
   margin-left: 40px;
   font-size: 14px;
 `;
 
 const ColumnName = styled.div`
   display: inline-block;
-  width: 120px;
+  width: 60px;
   background-color: #fafafa;
   border: 1px solid black;
+  text-align: center;
 `;
 
 class NoteGrid extends Component {
@@ -74,8 +74,8 @@ class NoteGrid extends Component {
 
   render() {
     const { data, changeNote } = this.props;
-    const width = 2300;
-    const height = 16020;
+    const width = 1150;
+    const height = 8010;
 
     // const kick = getColumns(data.drums.kick, 0, changeNote, "drums", "kick");
     // const snare = getColumns(data.drums.snare, 1, changeNote, "drums", "snare");
@@ -132,7 +132,7 @@ class NoteGrid extends Component {
         let rightColumn = i*2 + 1;
         return (
           <ColumnName key={instrumentGroup + instrument + i}>
-            {leftColumn} &nbsp; {instrumentShortname} &nbsp; {rightColumn}
+            {leftColumn}&ensp;{instrumentShortname}&ensp;{rightColumn}
           </ColumnName>
         );
       }).reverse();

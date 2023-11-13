@@ -10,9 +10,9 @@ const SurroundingRectangle = styled.rect`
 `;
 
 function getColumns(instrument, lane, callback, group, name) {
-  const width = 120;
-  const height = 250;
-  const horizontalSpacing = 15;
+  const width = 60;
+  const height = 125;
+  const horizontalSpacing = 7;
 
   const column1x = 0;
   const column2x = horizontalSpacing;
