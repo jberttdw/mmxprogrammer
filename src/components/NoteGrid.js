@@ -77,15 +77,15 @@ class NoteGrid extends Component {
     const width = 1150;
     const height = 8010;
 
-    // const kick = getColumns(data.drums.kick, 0, changeNote, "drums", "kick");
-    // const snare = getColumns(data.drums.snare, 1, changeNote, "drums", "snare");
+    // Reverse the key lists so that we show instruments mirrored
+    // because the programmer views it from the back of the MMX.
     let i = -1;
-    const all = Object.keys(data).map(instrumentGroup => {
-      return Object.keys(data[instrumentGroup]).map(instrument => {
+    const all = Object.keys(data).reverse().map(instrumentGroup => {
+      return Object.keys(data[instrumentGroup]).reverse().map(instrument => {
         i++;
         return (
           <Instrument
-            key={instrumentGroup + instrument + i}
+            key={instrumentGroup + instrument + '-' + i}
             ref={this.instrumentRefs[i]}
             instrument={data[instrumentGroup][instrument]}
             index={i}
@@ -94,26 +94,11 @@ class NoteGrid extends Component {
             instrumentName={instrument}
           />
         );
-      }).reverse();
-    }).reverse();
-    // ^^^^^^^^^^^ Reverse the columns as we're viewing it from the back
-
-    // const RowNumbers = new Array(64).fill(false).map((_, i) => {
-    //   return (
-    //     <RowNumber key={"RowNumber" + i} x={30} y={i * 250 + 40}>
-    //       {i + 1}
-    //     </RowNumber>
-    //   );
-    // });    // const RowNumbers = new Array(64).fill(false).map((_, i) => {
-    //   return (
-    //     <RowNumber key={"RowNumber" + i} x={30} y={i * 250 + 40}>
-    //       {i + 1}
-    //     </RowNumber>
-    //   );
-    // });
+      });
+    });
 
     // The divider and gates have a unique number for each column because "left" and "right" track
-    // switch when viewed from the back.
+    // switch when viewed from the front versus the back.
     const ColumnNames = Object.keys(data).map(instrumentGroup => {
       i = -1;
       return Object.keys(data[instrumentGroup]).map(instrument => {
