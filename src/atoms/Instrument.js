@@ -14,28 +14,32 @@ function getColumns(instrument, lane, callback, group, name) {
   const height = 125;
   const horizontalSpacing = 7;
 
-  const column1x = 0;
-  const column2x = horizontalSpacing;
-  const column3x = 2 * horizontalSpacing;
-  const column4x = 20 + 3 * horizontalSpacing;
-  const column5x = 20 + 4 * horizontalSpacing;
-  const column6x = 20 + 5 * horizontalSpacing;
+  const column1x = 6;
+  const column2x = column1x + horizontalSpacing;
+  const column3x = column2x + horizontalSpacing;
+  // Leave some space in the middle
+  const column4x = 14 + 3 * horizontalSpacing;
+  const column5x = column4x + horizontalSpacing;
+  const column6x = column5x + horizontalSpacing;
   const verticalSpacing = height / 4;
   const offset = verticalSpacing / 2;
-  const column3spacing = height / 3;
+  const columntripletspacing = height / 3;
 
   // console.log("instrument",instrument)
 
-  const column1 = instrument[1].map((value, index) => {
+  const column1 = instrument[2].map((value, index) => {
     return (
       <Note
         key={name + "column1" + index}
         instrumentGroup={group}
         instrument={name}
-        track={1}
+        track={2}
         index={index}
         x={column1x}
-        y={offset + index * verticalSpacing}
+        y={
+          (index + 1) * columntripletspacing
+          + Math.floor(index / 2) * columntripletspacing
+        }
         value={value}
         callback={callback}
       />
@@ -58,18 +62,16 @@ function getColumns(instrument, lane, callback, group, name) {
     );
   });
 
-  const column3 = instrument[2].map((value, index) => {
+  const column3 = instrument[1].map((value, index) => {
     return (
       <Note
         key={name + "column3" + index}
         instrumentGroup={group}
         instrument={name}
-        track={2}
+        track={1}
         index={index}
         x={column3x}
-        y={
-          (index + 1) * column3spacing + Math.floor(index / 2) * column3spacing
-        }
+        y={offset + index * verticalSpacing}
         value={value}
         callback={callback}
       />
@@ -121,8 +123,8 @@ function getColumns(instrument, lane, callback, group, name) {
           index={index}
           x={column6x}
           y={
-            (index + 1) * column3spacing +
-            Math.floor(index / 2) * column3spacing
+            (index + 1) * columntripletspacing +
+            Math.floor(index / 2) * columntripletspacing
           }
           value={value}
           callback={callback}
@@ -164,25 +166,6 @@ export default class Instrument extends PureComponent {
     index: PropTypes.number.isRequired,
     changeNote: PropTypes.func.isRequired
   };
-
-  // shouldComponentUpdate = (nextProps, nextState) => {
-  // console.log("this.props",this.props.instrument)
-  // console.log("nextProps",nextProps.instrument)
-
-  // this.props.instrument.forEach((column,ci) => {
-  //   column.forEach((note,ni) => {
-  //     console.log("note",note)
-  //     if (note !== nextProps.instrument[ci][ni]) {
-  //       console.log("instrument update true")
-  //       return true;
-  //     }
-  //   })
-  // });
-  // console.log("instrument update false")
-  // return false;
-  // return this.props.instrument !== nextProps.instrument;
-  // return _.isEqual(this.props.instrument, nextProps.instrument)
-  // };
 
   render() {
     const {
