@@ -27,13 +27,14 @@ function getColumns(instrument, lane, callback, group, name) {
 
   // console.log("instrument",instrument)
 
-  const column1 = instrument[2].map((value, index) => {
+  // Bind first 3 columns to "right-most" tracks in data structure
+  const column1 = instrument[5].map((value, index) => {
     return (
       <Note
         key={name + "column1" + index}
         instrumentGroup={group}
         instrument={name}
-        track={2}
+        track={5}
         index={index}
         x={column1x}
         y={
@@ -46,13 +47,13 @@ function getColumns(instrument, lane, callback, group, name) {
     );
   });
 
-  const column2 = instrument[0].map((value, index) => {
+  const column2 = instrument[3].map((value, index) => {
     return (
       <Note
         key={name + "column2" + index}
         instrumentGroup={group}
         instrument={name}
-        track={0}
+        track={3}
         index={index}
         x={column2x}
         y={index * verticalSpacing}
@@ -62,13 +63,13 @@ function getColumns(instrument, lane, callback, group, name) {
     );
   });
 
-  const column3 = instrument[1].map((value, index) => {
+  const column3 = instrument[4].map((value, index) => {
     return (
       <Note
         key={name + "column3" + index}
         instrumentGroup={group}
         instrument={name}
-        track={1}
+        track={4}
         index={index}
         x={column3x}
         y={offset + index * verticalSpacing}
@@ -78,13 +79,13 @@ function getColumns(instrument, lane, callback, group, name) {
     );
   });
 
-  const column4 = instrument[4].map((value, index) => {
+  const column4 = instrument[1].map((value, index) => {
     return (
       <Note
         key={name + "column4" + index}
         instrumentGroup={group}
         instrument={name}
-        track={4}
+        track={1}
         index={index}
         x={column4x}
         y={offset + index * verticalSpacing}
@@ -94,14 +95,14 @@ function getColumns(instrument, lane, callback, group, name) {
     );
   });
 
-  const column5 = instrument[3]
+  const column5 = instrument[0]
     .map((value, index) => {
       return (
         <Note
           key={name + "column5" + index}
           instrumentGroup={group}
           instrument={name}
-          track={3}
+          track={0}
           index={index}
           x={column5x}
           y={index * verticalSpacing}
@@ -112,14 +113,14 @@ function getColumns(instrument, lane, callback, group, name) {
     })
     .filter(v => v !== false);
 
-  const column6 = instrument[5]
+  const column6 = instrument[2]
     .map((value, index) => {
       return (
         <Note
           key={name + "column6" + index}
           instrumentGroup={group}
           instrument={name}
-          track={5}
+          track={2}
           index={index}
           x={column6x}
           y={
