@@ -26,13 +26,13 @@ function getColumns(instrument, lane, callback, group, name) {
 
   // console.log("instrument",instrument)
 
-  const column1 = instrument[0].map((value, index) => {
+  const column1 = instrument[1].map((value, index) => {
     return (
       <Note
         key={name + "column1" + index}
         instrumentGroup={group}
         instrument={name}
-        column={1}
+        track={1}
         index={index}
         x={column1x}
         y={offset + index * verticalSpacing}
@@ -42,13 +42,13 @@ function getColumns(instrument, lane, callback, group, name) {
     );
   });
 
-  const column2 = instrument[1].map((value, index) => {
+  const column2 = instrument[0].map((value, index) => {
     return (
       <Note
         key={name + "column2" + index}
         instrumentGroup={group}
         instrument={name}
-        column={2}
+        track={0}
         index={index}
         x={column2x}
         y={index * verticalSpacing}
@@ -64,7 +64,7 @@ function getColumns(instrument, lane, callback, group, name) {
         key={name + "column3" + index}
         instrumentGroup={group}
         instrument={name}
-        column={3}
+        track={2}
         index={index}
         x={column3x}
         y={
@@ -76,13 +76,13 @@ function getColumns(instrument, lane, callback, group, name) {
     );
   });
 
-  const column4 = instrument[3].map((value, index) => {
+  const column4 = instrument[4].map((value, index) => {
     return (
       <Note
         key={name + "column4" + index}
         instrumentGroup={group}
         instrument={name}
-        column={4}
+        track={4}
         index={index}
         x={column4x}
         y={offset + index * verticalSpacing}
@@ -92,14 +92,14 @@ function getColumns(instrument, lane, callback, group, name) {
     );
   });
 
-  const column5 = instrument[4]
+  const column5 = instrument[3]
     .map((value, index) => {
       return (
         <Note
           key={name + "column5" + index}
           instrumentGroup={group}
           instrument={name}
-          column={5}
+          track={3}
           index={index}
           x={column5x}
           y={index * verticalSpacing}
@@ -117,7 +117,7 @@ function getColumns(instrument, lane, callback, group, name) {
           key={name + "column6" + index}
           instrumentGroup={group}
           instrument={name}
-          column={6}
+          track={5}
           index={index}
           x={column6x}
           y={
@@ -131,8 +131,6 @@ function getColumns(instrument, lane, callback, group, name) {
     })
     .filter(v => v !== false);
 
-  // const surroundingRectangle = new MakerJs.models.Rectangle(54, height);
-  // const surroundingRectangles = [0, 1, 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25].map(i => {
   const surroundingRectangles = new Array(64).fill(false).map((_, i) => {
     return (
       <SurroundingRectangle

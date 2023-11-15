@@ -22,7 +22,7 @@ export class Note extends Component {
     callback: PropTypes.func.isRequired,
     instrument: PropTypes.string.isRequired,
     instrumentGroup: PropTypes.string.isRequired,
-    column: PropTypes.number.isRequired,
+    track: PropTypes.number.isRequired,
     index: PropTypes.number.isRequired
   };
 
@@ -41,7 +41,7 @@ export class Note extends Component {
       y,
       instrumentGroup,
       instrument,
-      column,
+      track,
       index,
       value,
       callback
@@ -57,7 +57,7 @@ export class Note extends Component {
         strokeWidth="2"
         fill={value !== false ? "black" : "#ddd"}
         onClick={() => {
-          callback(instrumentGroup, instrument, column - 1, index, !value);
+          callback(instrumentGroup, instrument, track, index, !value);
         }}
       />
     );

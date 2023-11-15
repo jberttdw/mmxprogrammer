@@ -240,6 +240,29 @@ const scales = {
   }
 };
 
+// Init instrument data structure:
+// Each instrument, be that a vibraphone bar, drum or bass guitar string has a marble gate
+// with 2 channels for marbles and 2 triggers. Each trigger can be activated
+// by a pin in one of 3 programming tracks, with the tracks having holes offset from each other.
+// There are 64 measures, each one representing 1 quarter note.
+// The first track in this datastructure contains 256 holes around the wheel because there are 4 holes per measure.
+// These holes model 16th notes, with the first note alligned to the start of the measure. The next hole
+// represents the 3rd 16th note in the measure because there obviously need to be solid material between holes.
+// The second track also has 4 holes to model 16th notes but the first hole is aligned with the 2nd 16th note
+// in the measure and the hole after that represents the 4th 16th note of the measure, and so on.
+// The third track models holes for triplets (i.e. a measure divided in 3 parts). The first note in
+// each triplet is the same as the first 16th note, so out of 3 holes needed for a triplet this track
+// has 2 holes per measure the 2nd and the 3rd of the 3 notes.
+//
+// The next 3 tracks are the same, but then for the other trigger.
+// 
+// Note that the Instrument component visualizes this data in a slightly different order so that
+// it matches the layout of the MMX. There the 6 tracks are in a special setup:
+// First the triplet track, then the on-beats, then the off-beats, then a small space, then the off-beats of the other trigger,
+// on-beats of the other trigger and finally the triplets of the other trigger.
+//
+// Also note that the UI shows the program upside down and mirrored (the "left" tracks are actually for what we called
+// the "other trigger", i.e. array indices 3-5) because the programmer views the MMX from the back.
 function initInstrument() {
   return [
     Array(64 * 4).fill(false),
@@ -259,9 +282,9 @@ function nearInt(op) {
 
 function getTimingPosition(time) {
   if (nearInt(time, 0) || nearInt(time % 0.5)) {
-    return { column: 1, index: Math.floor(time / 0.5) };
+    return { column: 0, index: Math.floor(time / 0.5) };
   } else if (nearInt(time % 0.25)) {
-    return { column: 0, index: (Math.floor(time / 0.25) - 1) / 2 };
+    return { column: 1, index: (Math.floor(time / 0.25) - 1) / 2 };
   } else if (nearInt((time % 1) % 0.33)) {
     return {
       column: 2,
@@ -331,7 +354,7 @@ const initialState = {
 
 class App extends Component {
   state = initialState;
-
+  
   constructor(props) {
     super(props);
     this.noteGridRef = React.createRef();
