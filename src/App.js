@@ -366,6 +366,14 @@ class App extends Component {
     classes: PropTypes.object.isRequired
   };
 
+  triggerHiddenModeCheck() {
+    this.pinPlacingShortcut++;
+    if (this.pinPlacingShortcut >= 5) {
+      this.pinPlacingEnabled = true;
+      this.forceUpdate();
+    }
+  }
+
   changeNote = (instrumentGroup, instrument, column, index, newValue) => {
     let newInstrument = this.state.data[instrumentGroup][instrument].slice();
     newInstrument[column][index] = newValue;
@@ -461,7 +469,7 @@ class App extends Component {
     const { classes } = this.props;
     return (
       <div>
-        <Typography variant="display4" gutterBottom>
+        <Typography variant="display4" gutterBottom onClick={() => this.triggerHiddenModeCheck()}>
           MMX Programmer
         </Typography>
         <Paper className={classes.controls}>
