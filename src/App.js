@@ -354,6 +354,8 @@ const initialState = {
 
 class App extends Component {
   state = initialState;
+  pinPlacingEnabled = false;
+  pinPlacingShortcut = 0;
   
   constructor(props) {
     super(props);
@@ -474,6 +476,7 @@ class App extends Component {
           ref={this.noteGridRef}
           data={data}
           changeNote={this.changeNote}
+          readonly={!(this.pinPlacingEnabled)}
         />
       </div>
     );

@@ -9,7 +9,7 @@ const SurroundingRectangle = styled.rect`
   fill: none;
 `;
 
-function getColumns(instrument, lane, callback, group, name) {
+function getColumns(instrument, lane, callback, group, name, readonly) {
   // Width and height for one surrounding rectangle, AKA "crank"
   const width = 60;
   const height = 125;
@@ -47,6 +47,7 @@ function getColumns(instrument, lane, callback, group, name) {
         }
         value={value}
         callback={callback}
+        readonly={value !== false ? false : readonly}
       />
     );
   });
@@ -63,6 +64,7 @@ function getColumns(instrument, lane, callback, group, name) {
         y={maxTotalHeight - (index * verticalSpacing)}
         value={value}
         callback={callback}
+        readonly={value !== false ? false : readonly}
       />
     );
   });
@@ -79,6 +81,7 @@ function getColumns(instrument, lane, callback, group, name) {
         y={maxTotalHeight - (offset + index * verticalSpacing)}
         value={value}
         callback={callback}
+        readonly={value !== false ? false : readonly}
       />
     );
   });
@@ -95,6 +98,7 @@ function getColumns(instrument, lane, callback, group, name) {
         y={maxTotalHeight - (offset + index * verticalSpacing)}
         value={value}
         callback={callback}
+        readonly={value !== false ? false : readonly}
       />
     );
   });
@@ -112,6 +116,7 @@ function getColumns(instrument, lane, callback, group, name) {
           y={maxTotalHeight - (index * verticalSpacing)}
           value={value}
           callback={callback}
+          readonly={value !== false ? false : readonly}
         />
       );
     })
@@ -134,6 +139,7 @@ function getColumns(instrument, lane, callback, group, name) {
           }
           value={value}
           callback={callback}
+          readonly={value !== false ? false : readonly}
         />
       );
     })
@@ -170,7 +176,8 @@ export default class Instrument extends PureComponent {
     instrumentGroupName: PropTypes.string.isRequired,
     instrumentName: PropTypes.string.isRequired,
     index: PropTypes.number.isRequired,
-    changeNote: PropTypes.func.isRequired
+    changeNote: PropTypes.func.isRequired,
+    readonly: PropTypes.bool
   };
 
   render() {
@@ -179,14 +186,16 @@ export default class Instrument extends PureComponent {
       instrumentGroupName,
       instrumentName,
       index,
-      changeNote
+      changeNote,
+      readonly
     } = this.props;
     return getColumns(
       instrument,
       index,
       changeNote,
       instrumentGroupName,
-      instrumentName
+      instrumentName,
+      readonly === undefined || readonly == true
     );
   }
 }

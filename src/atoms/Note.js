@@ -5,10 +5,12 @@ import styled from "styled-components";
 const Rect = styled.rect`
   stroke-width: 1;
   stroke: black;
-  &:hover {
-    stroke: red;
-    cursor: pointer;
-  }
+  ${(props) =>
+    !props.readonly &&
+    `&:hover {
+      stroke: red;
+      cursor: pointer;
+    }`}
 `;
 export class Note extends Component {
   state = {
@@ -25,15 +27,18 @@ export class Note extends Component {
     instrument: PropTypes.string.isRequired,
     instrumentGroup: PropTypes.string.isRequired,
     track: PropTypes.number.isRequired,
-    index: PropTypes.number.isRequired
+    index: PropTypes.number.isRequired,
+    readonly: PropTypes.bool.isRequired
   };
 
   constructor(props) {
     super(props);
     if (props.value !== false) {
       this.state.trueValue = props.value;
+      this.state.readonly = false;
     } else {
       this.state.trueValue = true;
+      this.state.readonly = true;
     }
   }
 
@@ -49,6 +54,7 @@ export class Note extends Component {
       track,
       index,
       value,
+      readonly,
       callback
     } = this.props;
 
@@ -62,8 +68,10 @@ export class Note extends Component {
         strokeWidth="2"
         fill={value !== false ? "black" : "#ddd"}
         onClick={() => {
-          callback(instrumentGroup, instrument, track, index, !value);
+          if (!readonly)
+            callback(instrumentGroup, instrument, track, index, !value);
         }}
+        readonly={readonly}
       />
     );
   }

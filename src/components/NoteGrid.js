@@ -59,7 +59,8 @@ class NoteGrid extends Component {
 
   static propTypes = {
     data: PropTypes.object.isRequired,
-    changeNote: PropTypes.func.isRequired
+    changeNote: PropTypes.func.isRequired,
+    readonly: PropTypes.bool
   };
 
   update = () => {
@@ -73,7 +74,7 @@ class NoteGrid extends Component {
   // };
 
   render() {
-    const { data, changeNote } = this.props;
+    const { data, changeNote, readonly } = this.props;
     const width = 1150;
     const height = 8010;
 
@@ -92,6 +93,7 @@ class NoteGrid extends Component {
             changeNote={changeNote}
             instrumentGroupName={instrumentGroup}
             instrumentName={instrument}
+            readonly={readonly}
           />
         );
       });
