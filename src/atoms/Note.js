@@ -15,6 +15,8 @@ export class Note extends Component {
     trueValue: null
   };
 
+  // [NOTE] y value is measured from bottom towards top.
+  // Since SVG renders top to bottom we will need to do some math on the value.
   static propTypes = {
     x: PropTypes.number.isRequired,
     y: PropTypes.number.isRequired,
@@ -36,6 +38,9 @@ export class Note extends Component {
   }
 
   render() {
+    const noteWidth = 5;
+    const noteHeight = 15;
+
     const {
       x,
       y,
@@ -50,9 +55,9 @@ export class Note extends Component {
     return (
       <Rect
         x={x}
-        y={y}
-        width="5"
-        height="15"
+        y={y - noteHeight}
+        width={noteWidth}
+        height={noteHeight}
         stroke="black"
         strokeWidth="2"
         fill={value !== false ? "black" : "#ddd"}

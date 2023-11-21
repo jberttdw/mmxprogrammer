@@ -10,9 +10,13 @@ const SurroundingRectangle = styled.rect`
 `;
 
 function getColumns(instrument, lane, callback, group, name) {
+  // Width and height for one surrounding rectangle, AKA "crank"
   const width = 60;
   const height = 125;
   const horizontalSpacing = 7;
+
+  const maxCranks = 64;
+  const maxTotalHeight = maxCranks * height;
 
   const column1x = 6;
   const column2x = column1x + horizontalSpacing;
@@ -25,9 +29,8 @@ function getColumns(instrument, lane, callback, group, name) {
   const offset = verticalSpacing / 2;
   const columntripletspacing = height / 3;
 
-  // console.log("instrument",instrument)
-
-  // Bind first 3 columns to "right-most" tracks in data structure
+  // Bind first 3 columns to "right-most" tracks in data structure.
+  // Remember: the programmer shows the back view of the machine.
   const column1 = instrument[5].map((value, index) => {
     return (
       <Note
@@ -38,8 +41,9 @@ function getColumns(instrument, lane, callback, group, name) {
         index={index}
         x={column1x}
         y={
-          (index + 1) * columntripletspacing
-          + Math.floor(index / 2) * columntripletspacing
+          maxTotalHeight
+          - ( (index + 1) * columntripletspacing
+            + Math.floor(index / 2) * columntripletspacing)
         }
         value={value}
         callback={callback}
@@ -56,7 +60,7 @@ function getColumns(instrument, lane, callback, group, name) {
         track={3}
         index={index}
         x={column2x}
-        y={index * verticalSpacing}
+        y={maxTotalHeight - (index * verticalSpacing)}
         value={value}
         callback={callback}
       />
@@ -72,7 +76,7 @@ function getColumns(instrument, lane, callback, group, name) {
         track={4}
         index={index}
         x={column3x}
-        y={offset + index * verticalSpacing}
+        y={maxTotalHeight - (offset + index * verticalSpacing)}
         value={value}
         callback={callback}
       />
@@ -88,7 +92,7 @@ function getColumns(instrument, lane, callback, group, name) {
         track={1}
         index={index}
         x={column4x}
-        y={offset + index * verticalSpacing}
+        y={maxTotalHeight - (offset + index * verticalSpacing)}
         value={value}
         callback={callback}
       />
@@ -105,7 +109,7 @@ function getColumns(instrument, lane, callback, group, name) {
           track={0}
           index={index}
           x={column5x}
-          y={index * verticalSpacing}
+          y={maxTotalHeight - (index * verticalSpacing)}
           value={value}
           callback={callback}
         />
@@ -124,8 +128,9 @@ function getColumns(instrument, lane, callback, group, name) {
           index={index}
           x={column6x}
           y={
-            (index + 1) * columntripletspacing +
-            Math.floor(index / 2) * columntripletspacing
+            maxTotalHeight
+            - ((index + 1) * columntripletspacing +
+               Math.floor(index / 2) * columntripletspacing)
           }
           value={value}
           callback={callback}
@@ -134,7 +139,7 @@ function getColumns(instrument, lane, callback, group, name) {
     })
     .filter(v => v !== false);
 
-  const surroundingRectangles = new Array(64).fill(false).map((_, i) => {
+  const surroundingRectangles = new Array(maxCranks).fill(false).map((_, i) => {
     return (
       <SurroundingRectangle
         key={group + name + "surroundingRectangle" + i}
