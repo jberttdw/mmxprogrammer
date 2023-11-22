@@ -376,7 +376,17 @@ class App extends Component {
 
   changeNote = (instrumentGroup, instrument, column, index, newValue) => {
     let newInstrument = this.state.data[instrumentGroup][instrument].slice();
-    newInstrument[column][index] = newValue;
+
+    if (this.pinPlacingEnabled) {
+      // Advanced mode where you can place pins anywhere
+      newInstrument[column][index] = newValue;
+    } else {
+      // Mode where clicking a pin moves it to the other channel.
+      // Since the data model is symmetric instead of mirrored like the UI we can do sum + modulo
+      newInstrument[column][index] = false;
+      var otherChannel = (column + 3) % 6;
+      newInstrument[otherChannel][index] = true;
+    }
 
     this.setState({
       data: {
