@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import Export from "./components/Export";
 import NoteGrid from "./components/NoteGrid";
 import MidiUpload from "./components/Midiupload";
 import { withStyles } from "@material-ui/core/styles";
@@ -488,7 +487,6 @@ class App extends Component {
             instruments={instruments}
             scales={scales}
           />
-          <Export data={data} />
         </Paper>
         <NoteGrid
           ref={this.noteGridRef}
