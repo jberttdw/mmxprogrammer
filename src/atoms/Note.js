@@ -4,7 +4,6 @@ import styled from "styled-components";
 
 const Rect = styled.rect`
   stroke-width: 1;
-  stroke: black;
   ${(props) =>
     !props.readonly &&
     `&:hover {
@@ -58,6 +57,13 @@ export class Note extends Component {
       callback
     } = this.props;
 
+    let dottedStroke = undefined;
+    // On every plate edge the off-beat tracks miss the last hole of the track.
+    // There are 64 off-beat holes on a plate, so modulo math should return 63.
+    if ((track == 1 || track == 4) && index % 64 == 63) {
+      dottedStroke = "3,3";
+    }
+
     return (
       <Rect
         x={x}
@@ -65,8 +71,9 @@ export class Note extends Component {
         width={noteWidth}
         height={noteHeight}
         stroke="black"
+        strokeDasharray={dottedStroke}
         strokeWidth="2"
-        fill={value !== false ? "black" : "#ddd"}
+        fill={value !== false ? (dottedStroke == undefined ? "black" : "red") : "#ddd"}
         onClick={() => {
           if (!readonly)
             callback(instrumentGroup, instrument, track, index, !value);
