@@ -330,6 +330,11 @@ function getTimingPosition(time) {
 */
 const initialState = {
   data: {
+    instrumentGroupNames: function() {
+      return Object.keys(this)
+        .filter(keyName => (typeof this[keyName]) == "object" && ! Array.isArray(this[keyName]));
+    },
+    vibraphoneNotes: ["E4", "C5", "D5", "E5", "F#5", "G5", "A5", "B5", "C6", "D6", "E6"],
     vibraphone: {
       bar1: initInstrument(),
       bar2: initInstrument(),

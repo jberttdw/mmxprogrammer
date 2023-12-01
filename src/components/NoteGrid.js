@@ -81,7 +81,7 @@ class NoteGrid extends Component {
     // Reverse the key lists so that we show instruments mirrored
     // because the programmer views it from the back of the MMX.
     let i = -1;
-    const all = Object.keys(data).reverse().map(instrumentGroup => {
+    const all = data.instrumentGroupNames().reverse().map(instrumentGroup => {
       return Object.keys(data[instrumentGroup]).reverse().map(instrument => {
         i++;
         return (
@@ -101,7 +101,7 @@ class NoteGrid extends Component {
 
     // The divider and gates have a unique number for each column because "left" and "right" track
     // switch when viewed from the front versus the back.
-    const ColumnNames = Object.keys(data).map(instrumentGroup => {
+    const ColumnNames = data.instrumentGroupNames().map(instrumentGroup => {
       i = -1;
       return Object.keys(data[instrumentGroup]).map(instrument => {
         var instrumentShortname;
