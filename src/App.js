@@ -239,29 +239,36 @@ const scales = {
   }
 };
 
-// Init instrument data structure:
-// Each instrument, be that a vibraphone bar, drum or bass guitar string has a marble gate
-// with 2 channels for marbles and 2 triggers. Each trigger can be activated
-// by a pin in one of 3 programming tracks, with the tracks having holes offset from each other.
-// There are 64 measures, each one representing 1 quarter note.
-// The first track in this datastructure contains 256 holes around the wheel because there are 4 holes per measure.
-// These holes model 16th notes, with the first note alligned to the start of the measure. The next hole
-// represents the 3rd 16th note in the measure because there obviously need to be solid material between holes.
-// The second track also has 4 holes to model 16th notes but the first hole is aligned with the 2nd 16th note
-// in the measure and the hole after that represents the 4th 16th note of the measure, and so on.
-// The third track models holes for triplets (i.e. a measure divided in 3 parts). The first note in
-// each triplet is the same as the first 16th note, so out of 3 holes needed for a triplet this track
-// has 2 holes per measure the 2nd and the 3rd of the 3 notes.
+// Internal data structure:
 //
-// The next 3 tracks are the same, but then for the other trigger.
+// Introduction:
+// The programming wheel contains thousands of holes in repeating patterns. One can see 3 vertical tracks combined into a column.
+// One such column contains 64 repeats of the pattern around the wheel, and there's 16 on each one of the four programming plates.
+// For each crank turn one such pattern will be traversed, so this pattern is called a "crank" in this software.
+// The pattern represents the length of 1 quarter note. We know this because the rhythm machine has a setting
+// for one click per crank turn, then it has a setting to play two 8th note clicks per crank turn (as stated by Martin).
+//
+// Each instrument, be that a vibraphone bar, drum or bass guitar string has a marble gate
+// with 2 channels for marbles and a registrator for each. Each registrator can be activated
+// by a pin in one of the 3 programming tracks of the corresponding column, with the tracks having holes
+// offset from each other so you can stick a pin with either 32nd note resolution or 1/8 triplet.
+//
+// The first array in the instrument datastructure contains 256 items, one for each hole in that track
+// on the full programming wheel (64 "cranks" times 4 holes).
+// The second track also has 4 holes per crank so that array has 256 items as well, those are shifted one 32th note.
+// The third array models holes for triplets (i.e. a measure divided in 3 parts). The first note in
+// each triplet is the same as the first note of a "crank", so out of 3 holes needed for a triplet this track
+// has 2 holes per "crank": the 2nd and the 3rd of the 3 notes of a triplet. This array holds only 128 items.
+//
+// The next 3 arrays are the same, but then for the other registrator.
 // 
-// Note that the Instrument component visualizes this data in a slightly different order so that
+// Note that the "Instrument" React component visualizes this data in a slightly different order so that
 // it matches the layout of the MMX. There the 6 tracks are in a special setup:
 // First the triplet track, then the on-beats, then the off-beats, then a small space, then the off-beats of the other trigger,
 // on-beats of the other trigger and finally the triplets of the other trigger.
 //
-// Also note that the UI shows the program upside down and mirrored (the "left" tracks are actually for what we called
-// the "other trigger", i.e. array indices 3-5) because the programmer views the MMX from the back.
+// Also note that the UI shows the program upside down and mirrored (the "left" tracks in the UI are actually for
+// what we called the "other registrator", i.e. array indices 3-5) because the programmer views the MMX from the back.
 function initInstrument() {
   return [
     Array(64 * 4).fill(false),
