@@ -5,6 +5,7 @@ import MidiUpload from "./components/Midiupload";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
+import EditPinsSwitch from "./components/EditPinsSwitch";
 
 const styles = theme => ({
   controls: {
@@ -377,12 +378,9 @@ class App extends Component {
     classes: PropTypes.object.isRequired
   };
 
-  triggerHiddenModeCheck() {
-    this.pinPlacingShortcut++;
-    if (this.pinPlacingShortcut >= 5) {
-      this.pinPlacingEnabled = true;
-      this.forceUpdate();
-    }
+  handleFreePinPlacementChange = (pinPlacingEnabled) => {
+    this.pinPlacingEnabled = pinPlacingEnabled;
+    this.forceUpdate();
   }
 
   changeNote = (instrumentGroup, instrument, column, index, newValue) => {
@@ -490,7 +488,7 @@ class App extends Component {
     const { classes } = this.props;
     return (
       <div>
-        <Typography variant="display4" gutterBottom onClick={() => this.triggerHiddenModeCheck()}>
+        <Typography variant="display4" gutterBottom>
           MMX Programmer
         </Typography>
         <Paper className={classes.controls}>
@@ -498,6 +496,10 @@ class App extends Component {
             setData={this.setData}
             instruments={instruments}
             scales={scales}
+          />
+          <EditPinsSwitch
+            freePinEditModeEnabled={this.pinPlacingEnabled}
+            handleChange={this.handleFreePinPlacementChange}
           />
         </Paper>
         <NoteGrid
