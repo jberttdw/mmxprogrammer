@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import NoteGrid from "./components/NoteGrid";
+import SaveProgram from "./components/SaveProgram";
 import MidiUpload from "./components/Midiupload";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -497,6 +498,8 @@ class App extends Component {
             instruments={instruments}
             scales={scales}
           />
+          <SaveProgram
+            data={data} />
           <EditPinsSwitch
             freePinEditModeEnabled={this.pinPlacingEnabled}
             handleChange={this.handleFreePinPlacementChange}
