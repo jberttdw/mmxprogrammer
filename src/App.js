@@ -5,17 +5,34 @@ import SaveProgram from "./components/SaveProgram";
 import MidiUpload from "./components/Midiupload";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import EditPinsSwitch from "./components/EditPinsSwitch";
+import VibraphoneInfo from "./components/VibraphoneInfo";
+
 
 const styles = theme => ({
-  controls: {
-    width: 540,
+  utilities: {
+    marginBottom: 30,
+    marginTop: 0
+  },
+  actions: {
+    //width: 540,
     ...theme.mixins.gutters(),
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
-    margin: 30,
-    marginTop: 0
+    marginLeft: 30,
+    marginRight:30,
+    height: "100%"
+  },
+  noteInfo: {
+    //width: 800,
+    ...theme.mixins.gutters(),
+    paddingTop: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit * 2,
+    marginLeft: 30,
+    marginRight:30,
+    height: "100%"
   }
 });
 
@@ -492,19 +509,28 @@ class App extends Component {
         <Typography variant="display4" gutterBottom>
           MMX Programmer
         </Typography>
-        <Paper className={classes.controls}>
-          <MidiUpload
-            setData={this.setData}
-            instruments={instruments}
-            scales={scales}
-          />
-          <SaveProgram
-            data={data} />
-          <EditPinsSwitch
-            freePinEditModeEnabled={this.pinPlacingEnabled}
-            handleChange={this.handleFreePinPlacementChange}
-          />
-        </Paper>
+        <Grid container spacing={2} className={classes.utilities}>
+          <Grid item xs={6}>
+            <Paper className={classes.actions}>
+              <MidiUpload
+                setData={this.setData}
+                instruments={instruments}
+                scales={scales}
+              />
+              <SaveProgram
+                data={data} />
+              <EditPinsSwitch
+                freePinEditModeEnabled={this.pinPlacingEnabled}
+                handleChange={this.handleFreePinPlacementChange}
+              />
+            </Paper>
+          </Grid>
+          <Grid item xs={6}>
+            <Paper className={classes.noteInfo}>
+              <VibraphoneInfo data={data} />
+            </Paper>
+          </Grid>
+        </Grid>
         <NoteGrid
           ref={this.noteGridRef}
           data={data}
