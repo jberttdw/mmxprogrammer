@@ -9,6 +9,7 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import EditPinsSwitch from "./components/EditPinsSwitch";
 import VibraphoneInfo from "./components/VibraphoneInfo";
+import LoadProgram from "./components/LoadProgram";
 
 
 const styles = theme => ({
@@ -426,7 +427,61 @@ class App extends Component {
     });
   };
 
-  setData = data => {
+  setInstrumentsData = instruments => {
+    if (Object.hasOwn(instruments, "vibraphoneNotes")) {
+      let maxNotes = Math.max(this.state.data.vibraphoneNotes.length, instruments.vibraphoneNotes.length);
+      for (let i = 0; i < maxNotes; i++) {
+        this.state.data.vibraphoneNotes[i] = instruments.vibraphoneNotes[i];
+      }
+    }
+    this.state.data.instrumentGroupNames().forEach((group, i) => {
+      // In case incoming data doesn't know about a particular instrument
+      if (!Object.hasOwn(instruments, group)) {
+        return;
+      }
+      Object.keys(this.state.data[group]).forEach((instrument, j) => {
+        // In case incoming data doesn't have e.g. bar1 property
+        if (!Object.hasOwn(instruments[group], instrument)) {
+          return;
+        }
+        this.setPatternData(group, instrument, instruments[group][instrument]);
+      });
+    });
+    this.setState({data: {...this.state.data}});
+    this.update();
+  }
+
+  setPatternData = (instrumentGroup, instrument, pattern) => {
+    if (!Array.isArray(pattern)) {
+      console.error("Cannot update pattern for group " + instrumentGroup + ", instrument: " + instrument
+        + "; pattern data is not an array of tracks.");
+        return;
+    }
+    if (pattern.length < 6) {
+      console.error("Cannot update pattern for group " + instrumentGroup + ", instrument: " + instrument
+        + "; pattern data only has " + pattern.length + " tracks");
+        return;
+    }
+    // Check lengths of each track - 256 items for track 0, 1, 3, and 4.
+    for (let t = 0; t < 6; t++) {
+      var trackLength = (t === 2 || t === 5) ? 64 * 2 : 64 * 4;
+      if (!Array.isArray(pattern[t])) {
+        console.error("Cannot update pattern for group " + instrumentGroup + ", instrument: " + instrument
+        + "; pattern does not consist of merely track arrays.");
+        return;
+      }
+      if (! (pattern[t].length === trackLength)) {
+        console.error("Cannot update pattern for group " + instrumentGroup + ", instrument: " + instrument
+        + "; pattern data has track " + (t+1) + "with incorrect length.");
+        return;
+      }
+      for (let i = 0; i < trackLength; i++) {
+        this.state.data[instrumentGroup][instrument][t][i] = !!(pattern[t][i]);
+      }
+    }
+  }
+
+  setMidiData = data => {
     instruments.vibraphone.bars = scales[data.scale].notes;
     instruments.vibraphone.combined = scales[data.scale].notes;
 
@@ -512,8 +567,11 @@ class App extends Component {
         <Grid container spacing={2} className={classes.utilities}>
           <Grid item xs={6}>
             <Paper className={classes.actions}>
+              <LoadProgram
+                setInstrumentsData={this.setInstrumentsData}
+              />
               <MidiUpload
-                setData={this.setData}
+                setData={this.setMidiData}
                 instruments={instruments}
                 scales={scales}
               />
