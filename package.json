@@ -24,7 +24,7 @@
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "start": "react-scripts start",
+    "start": "cross-env BROWSER=none react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
@@ -36,6 +36,7 @@
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
+    "cross-env": "^7.0.3",
     "eslint": "^4.15.0",
     "eslint-config-react-app": "^2.1.0",
     "eslint-plugin-flowtype": "^2.41.0",
