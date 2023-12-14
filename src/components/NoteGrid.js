@@ -16,8 +16,8 @@ const Container = styled.div`
 
 const RowNumber = styled.div`
   width: 40px;
-  height: 125px;
-  padding-top: 60px;
+  height: 62px;
+  padding-top: 24px;
   border: 1px solid black;
   border-left: none;
   text-align: center;
@@ -76,7 +76,7 @@ class NoteGrid extends Component {
   render() {
     const { data, changeNote, readonly } = this.props;
     const width = 1150;
-    const height = 8010;
+    const height = 4005;
 
     // Reverse the key lists so that we show instruments mirrored
     // because the programmer views it from the back of the MMX.

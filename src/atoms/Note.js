@@ -43,7 +43,7 @@ export class Note extends Component {
 
   render() {
     const noteWidth = 5;
-    const noteHeight = 15;
+    const noteHeight = 7;
 
     const {
       x,

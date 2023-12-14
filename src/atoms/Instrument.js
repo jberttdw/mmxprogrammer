@@ -12,7 +12,7 @@ const SurroundingRectangle = styled.rect`
 function getColumns(instrument, lane, callback, group, name, readonly) {
   // Width and height for one surrounding rectangle, AKA "crank"
   const width = 60;
-  const height = 125;
+  const height = 62;
   const horizontalSpacing = 7;
 
   const maxCranks = 64;
